@@ -1,7 +1,6 @@
 function request (url,action) {
   $.ajax({
-    url: url
-    
+    url: url  
   }).success(function(response){
       if(action === "configPlayer "){
           configPlayer (response,0);           
@@ -42,7 +41,7 @@ function configPlayer (response,id){
        var url = "https://api.spotify.com/v1/artists/"+id_artists;
        request(url,"load_artist_information");
     });
-    //I use the some response, i dont need do a ajax request again
+    //I use the some response, i dont need to do a new ajax request again
     $('.btn-primary').click(function (){
                load_more_tracks(response);     
     });
@@ -69,18 +68,19 @@ function load_artist_information (response){
                                 '</div>'+
                                 '<div class="media-body">'+
                                   '<h2 class="media-heading">'+name+'</h2>'+
-                                  '<dl class="dl-horizontal">'+
-                                        '<dt">Genres</dt>'+
-                                        '<dd>'+genres+'</dd>'+
-                                        '<dt>Followers</dt>'+
-                                        '<dd>'+followers+'</dd>'+
-                                        '<dt>Popularity</dt>'+
-                                        '<dd>'+popularity+'</dd>'+
-                                  '</dl>' +   
-                                  
+                                  '<ul class= "list-unstyled">'+
+                                    '<li><strong>Genres: </strong></li>'+
+                                    '<li>'+genres+'</li>'+
+                                    '<li><strong>Followers: </strong></li>'+
+                                    '<li> '+followers+'</li>'+
+                                    '<li><strong>Popularity: </strong></li>'+
+                                    '<li>'+popularity+'</li>'+
+                                  '</ul>'+
+                                   '<button type="button" class="btn btn-default btn-primary pull-right">More '+name+'\'s albums</button>'+
                                 '</div>'+
                               '</div>');
     $('#modal_artist').modal("show"); 
+   
 }
 function load_more_tracks (response){
     var id_modal ="#modal_artist";
@@ -129,6 +129,5 @@ function load_more_tracks (response){
             $("progress").attr("value",0);
            }
       });
-    
 }
 

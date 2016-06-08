@@ -157,3 +157,6 @@ progress::-moz-progress-bar {
     height: 200px;
     width:  200px;
 }
+.modal-body ul li:nth-child(even) {
+    margin-left: 10px;
+}
