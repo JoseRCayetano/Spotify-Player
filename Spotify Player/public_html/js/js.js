@@ -76,10 +76,14 @@ function load_artist_information (response){
                                     '<li><strong>Popularity: </strong></li>'+
                                     '<li>'+popularity+'</li>'+
                                   '</ul>'+
-                                   '<button type="button" class="btn btn-default btn-primary pull-right">More '+name+'\'s albums</button>'+
+                                   '<button id="more_albums" type="button" class="btn btn-default btn-primary pull-right">More '+name+'\'s albums</button>'+
                                 '</div>'+
                               '</div>');
     $('#modal_artist').modal("show"); 
+    
+    $("more_albums").click(function () {
+        
+    });
    
 }
 function load_more_tracks (response){
@@ -116,8 +120,7 @@ function load_more_tracks (response){
       $(id_modal+" .modal-body").append(html);
       $(id_modal).modal('show');
       
-      //Onclick  preview
-      
+      //Onclick  preview  
       $(id_modal +" a").click(function (e){
           e.preventDefault();
           var n = $(this).parents('tr').attr("id");
@@ -129,5 +132,8 @@ function load_more_tracks (response){
             $("progress").attr("value",0);
            }
       });
+}
+function load_artist_albums (response){
+    
 }
 
