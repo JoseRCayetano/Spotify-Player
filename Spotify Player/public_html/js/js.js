@@ -1,4 +1,5 @@
 function request (url,action) {
+  var respo;
   $.ajax({
     url: url  
   }).success(function(response){
@@ -6,6 +7,10 @@ function request (url,action) {
           configPlayer (response,0);           
       }else if (action === "load_artist_information"){
           load_artist_information(response);
+      }else if (action === "artists_album"){
+          load_artists_albums(response);
+      }else if (action === "popularity"){
+          respo = response;
       }
       
   }).error(function (jqXHR,textStatus,errorThrown){
@@ -76,10 +81,17 @@ function load_artist_information (response){
                                     '<li><strong>Popularity: </strong></li>'+
                                     '<li>'+popularity+'</li>'+
                                   '</ul>'+
-                                   '<button type="button" class="btn btn-default btn-primary pull-right">More '+name+'\'s albums</button>'+
+                                   '<button id="'+id+'" type="button" class="btn btn-default btn-primary pull-right">More '+name+'\'s albums</button>'+
                                 '</div>'+
                               '</div>');
     $('#modal_artist').modal("show"); 
+    $(".media-body button").click(function (e){
+        var id = $(this).attr("id");
+        var url ='https://api.spotify.com/v1/artists/'+id+'/albums';
+        request(url,"artists_album");
+    });
+        
+    
    
 }
 function load_more_tracks (response){
@@ -129,5 +141,33 @@ function load_more_tracks (response){
             $("progress").attr("value",0);
            }
       });
+}
+function load_artists_albums(response){
+    var limit = response["items"].length;
+    var album_ids = [];
+    var html='<table class="table">'+
+                        '<thead>'+
+                            '<tr>'+
+                                '<th colspan="5" class="text-center"><h2>More results</h2></th>'+
+                            '</tr>'+
+                        '</thead>'+
+                        '<tbody>'+
+                            '<tr>'+
+                                '<th class="text-center">Image</th><th class="text-center">Album Name</th><th class="text-center">Popularity</th>'+
+                            '</tr>';
+     for (var i=0; i< limit; i++){
+          var id_album = response["items"][i].id;
+          var image = response["items"][i].images[0].url;
+          var album_name = response["items"][i].name;
+         html = html +'<tr id="'+i+'">'+
+                                '<td class="text-center"><img src ="'+image+'" ></td>'+
+                                '<td class="text-center">'+album_name+'</td>'+ 
+                                '<td class="text-center">'+album_name+'</td>'+ 
+                          '</tr>';
+         album_ids.push(id_album);
+      }
+      html = html + '</tbody>'+
+                    '</table>';
+      $('.modal-body').append(html);
 }
 
