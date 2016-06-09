@@ -61,10 +61,16 @@ function load_artist_information (response){
     $(".modal-body").empty();
     var id = response.id;
     var name = response.name;
-    var image =response["images"][0].url;
+    
     var genres = response["genres"];
     var followers = response["followers"].total;
     var popularity = response.popularity;
+    if (response["images"].length !== 0){
+        var image =response["images"][0].url;
+    }else{
+        var image = "./images/default.jpg";
+    }
+    var image =response["images"][0].url;
     $(".modal-body").append('<div class="media">'+
                                 '<div class="media-left">'+
                                   '<a href="#">'+
